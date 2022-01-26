@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const voiceDiscord = require('@discordjs/voice');
-const prefix = '#';
+const prefix = '&';
 const fs = require('fs');
 const client = new Discord.Client({ intents: 32767});
 const { token } = require('./config.json');
