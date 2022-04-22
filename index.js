@@ -18,10 +18,13 @@ client.on('messageCreate', async message => {
 
 	if (isCommand('list')) {
 		const sounds = fs.readdirSync("./sounds");
-		message.channel.send('Here is the list of sound files available right now');
+		//message.channel.send('Here is the list of sound files available right now');
+		let list = "Here is the list of sound files available right now\n";
 		for (file of sounds) {
-			message.channel.send(path.basename(file));
+			list += path.basename(file) + "\n";
+			//message.channel.send(path.basename(file));
 		}
+		message.channel.send(list);
 		message.channel.send('To use the bot, join a voice channel, and send ' + prefix + 'play [File name without ".mp3"]');
 	}
 
@@ -33,7 +36,8 @@ client.on('messageCreate', async message => {
 		//message.channel.send('/sounds/' + holder.substring(6) + '.mp3');
 		
 		const player = voiceDiscord.createAudioPlayer();
-		const resource = voiceDiscord.createAudioResource(join(__dirname, '/sounds/' + holder.substring(6) + '.mp3')); 
+		const resource = voiceDiscord.createAudioResource(join(__dirname, '/sounds/' + holder.substring(6) + '.mp3'), { inlineVolume: true });
+		resource.volume.setVolume(0.5);
 		/*	holder.substring(6) makes it easier to just add
 			more sound files, without extra coding needed 
 			in the future, as the command is "&play titleOfFile"
@@ -43,7 +47,9 @@ client.on('messageCreate', async message => {
 			guildId: message.guild.id,
 			adapterCreator: message.guild.voiceAdapterCreator,
 		});
-
+		/*
+		to make bot go burrrr, type "node ." in the console
+		*/
 		player.play(resource);
 		connection.subscribe(player);
 
